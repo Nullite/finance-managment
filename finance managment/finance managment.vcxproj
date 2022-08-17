@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Date.cpp" />
     <ClCompile Include="MoneyStorage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MoneyStorageFabric.cpp" />
@@ -135,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="categories.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="Date.h" />
     <ClInclude Include="MoneyStorage.h" />
     <ClInclude Include="MoneyStorageFabric.h" />
   </ItemGroup>

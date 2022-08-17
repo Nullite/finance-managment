@@ -27,8 +27,8 @@ std::string Controller::getCategory(int category)
     case CLOTHES: return "Clothes";
     case RESTAURANTS: return "Restaurants";
     case PRESENTS: return "Presents";
-    case  HOBBY: return "Hobby";
-    case  APPLIANCES: return "Appliances";
+    case HOBBY: return "Hobby";
+    case APPLIANCES: return "Appliances";
     case OTHER: return "Other";       
     }
 }
@@ -49,6 +49,34 @@ std::vector<std::vector<int>> Controller::dayReport(int day)
     return report;
 }
 
+std::vector<std::vector<int>> Controller::weekReport(int day)
+{
+    Date dateControler;
+    std::vector<std::vector <int>> report;
+    std::vector<int> dates;
+
+    dates.push_back(day);
+
+    for (int i{0}; i < 6; ++i)
+    {
+        std::string dateStr = dateTransformer(day);
+        std::string newDay = dateControler.getDateThroughXDays(1, dateStr);
+        day = dateTransformer(newDay);
+        dates.push_back(day);
+    }
+
+    for (std::vector<int> expence : expences)
+    {
+        int date = expence.at(2);
+        for (int i = 0; i < dates.size(); ++i)
+        {
+            if (date == dates.at(i)) report.push_back(expence);
+        }
+    }
+
+    return report;
+}
+
 std::string Controller::dateTransformer(int date)
 {
     std::string dateStr = std::to_string(date);
@@ -56,6 +84,13 @@ std::string Controller::dateTransformer(int date)
     dateStr.insert(2, ".");
     dateStr.insert(5, ".");
     return dateStr;
+}
+
+int Controller::dateTransformer(std::string date)
+{
+    date.erase(date.begin() + 2);
+    date.erase(date.begin() + 4);
+    return std::stoi(date);
 }
 
 Controller& Controller::getInstance()
@@ -123,6 +158,7 @@ void Controller::report(int date, int duration)
 {
     std::vector<std::vector<int>> report;
     if (duration == 1) report = dayReport(date);
+    if (duration == 2) report = weekReport(date);
     for (std::vector<int> category : report)
     {
         std::cout <<"Date: " << dateTransformer(category.at(2))<< '\n' << "Category: " << getCategory(category.at(0)) << '\n' << "Expenses: " << category.at(1) << "\n\n";

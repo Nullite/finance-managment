@@ -15,9 +15,9 @@ int main()
     controller.cardList();
     system("pause");
     system("cls");
-    controller.cash(700, 0, 24022022);
-    controller.cash(1500, 1, 1012022);
-    controller.cash(3500, 1, 1012024);
+    controller.cash(700, 0, 1012022);
+    controller.cash(1500, 1, 6012022);
+    controller.cash(3500, 1, 7012022);
     controller.cardList();
-    controller.report(1012024, 1);
+    controller.report(31122021, 2);
 }
