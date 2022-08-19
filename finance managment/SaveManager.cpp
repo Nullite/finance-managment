@@ -38,11 +38,11 @@ SaveManager::SaveManager(std::vector<std::vector<int>>& expences, std::vector<Mo
 		std::string number;
 		int ballance;
 		int type;
-		std::getline(getExpences, number);
+		std::getline(getCards, number);
 		if (number == "") break;
-		std::getline(getExpences, line);
+		std::getline(getCards, line);
 		ballance = std::stoi(line);
-		std::getline(getExpences, line);
+		std::getline(getCards, line);
 		type = std::stoi(line);
 		if (type == 1)
 		{
