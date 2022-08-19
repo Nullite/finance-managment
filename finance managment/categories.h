@@ -1,17 +1,27 @@
 #pragma once
-enum categories
+#include <string>
+#include "Categories.h"
+
+class Categories
 {
-	CASH,
-	UTILITYBILLS,
-	CREDITS,
-	FOOD,
-	AUTOMOBILE,
-	ENTERTEIMENTS,
-	EDUCATION,
-	CLOTHES,
-	RESTAURANTS,
-	PRESENTS,
-	HOBBY,
-	APPLIANCES,
-	OTHER
+public:
+	enum category
+	{
+		CASH,
+		UTILITYBILLS,
+		CREDITS,
+		FOOD,
+		AUTOMOBILE,
+		ENTERTEIMENTS,
+		EDUCATION,
+		CLOTHES,
+		RESTAURANTS,
+		PRESENTS,
+		HOBBY,
+		APPLIANCES,
+		OTHER
+	};
+
+	std::string getCategory(int category);
 };
+

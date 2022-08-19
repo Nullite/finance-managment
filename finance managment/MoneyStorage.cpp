@@ -5,6 +5,31 @@ int MoneyStorage::getType()
 	return type;
 }
 
+int MoneyStorage::getBallance()
+{
+	return ballance;
+}
+
+std::string MoneyStorage::getNumber()
+{
+	return number;
+}
+
+void MoneyStorage::setNumber(std::string number)
+{
+	this->number = number;
+}
+
+void MoneyStorage::setBallance(int ballance)
+{
+	this->ballance = ballance;
+}
+
+void MoneyStorage::setType(int type)
+{
+	this->type = type;
+}
+
 void MoneyStorage::addMoney(int sum)
 {
 	ballance += sum;
@@ -20,10 +45,10 @@ int MoneyStorage::calcComission(int sum)
 	return 0;
 }
 
-DebetCard::DebetCard(std::string  number)
+DebetCard::DebetCard(std::string  number, int ballance)
 {
 	type = 1;
-	ballance = 0;
+	this->ballance = ballance;
 	this->number = number;
 }
 
@@ -41,10 +66,10 @@ bool DebetCard::spend(int sum)
 	return true;
 }
 
-Wallet::Wallet(std::string  number)
+Wallet::Wallet(std::string  number, int ballance)
 {
 	type = 3;
-	ballance = 0;
+	this->ballance = ballance;
 	this->number = number;
 }
 
@@ -55,11 +80,11 @@ bool Wallet::spend(int sum)
 	return true;
 }
 
-CreditCard::CreditCard(std::string number)
+CreditCard::CreditCard(std::string number, int ballance)
 {
 	comission = 2;
 	type = 2;
-	ballance = 50000;
+	this->ballance = ballance;
 	this->number = number;
 }
 

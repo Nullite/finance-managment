@@ -16,17 +16,20 @@ std::string MoneyStorageFabric::numberGenerator(int type)
 MoneyStorage* MoneyStorageFabric::createDebetCard()
 {
     std::string number = numberGenerator(1);
-    return new DebetCard(number);
+    int ballance = 0;
+    return new DebetCard(number, ballance);
 }
 
 MoneyStorage* MoneyStorageFabric::createCreditCard()
 {
     std::string number = numberGenerator(2);
-    return new CreditCard(number);
+    int ballance = 50000;
+    return new CreditCard(number, ballance);
 }
 
 MoneyStorage* MoneyStorageFabric::createWallet()
 {
     std::string number = numberGenerator(3);
-    return new Wallet(number);
+    int ballance = 0;
+    return new Wallet(number, ballance);
 }

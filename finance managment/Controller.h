@@ -1,29 +1,28 @@
+#include "Reports.h"
+#include "interface.h"
+#include "SaveManager.h"
 #pragma once
-#include "Date.h"
-#include "MoneyStorageFabric.h"
-#include "categories.h"
-#include <Vector>
+
 
 class Controller
 {
 	MoneyStorageFabric* fabric;
+	Reports* reportMaker;
+	Interface* interFace;
+	SaveManager* saveManager;
 	std::vector<MoneyStorage*> cards;
-	std::vector<std::vector <int>> expences;
-	Controller();
-	int searchExpence(std::vector<int> compare, std::vector<std::vector<int>> _where);
-	std::string getCategory(int category);
-	std::vector <std::vector <int>> dayReport(int day);
-	std::vector<std::vector<int>> weekReport(int day);
-	std::string dateTransformer(int date);
-	int dateTransformer(std::string date);
-  
+	Controller(); 
 public:
 	static Controller& getInstance();
     void addCard(int type);
 	void cardList();
 	void addMoney(int index, int sum);
 	bool cash(int sum, int index, int date);
-	void categoriesList();
+	bool spend(int sum, int index, int date, int category);
 	void report(int date, int duration);
+	void spendsRaiting(int date, int duration);
+	void categoriesList();
+	void saveExpences();
+	void saveCards();
 };
 

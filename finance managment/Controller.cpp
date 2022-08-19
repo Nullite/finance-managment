@@ -1,96 +1,18 @@
 #include "Controller.h"
 Controller::Controller() 
 {
+    std::vector<std::vector<int>> expences;
+    std::vector<MoneyStorage*> oldCards;
     fabric = new MoneyStorageFabric;
-}
+    reportMaker = new Reports;
+    interFace = new Interface;
+    saveManager = new SaveManager(expences, oldCards);
+    reportMaker->setExpences(expences);
 
-int Controller::searchExpence(std::vector<int> compare, std::vector<std::vector<int>> _where)
-{
-    for (int i{ 0 }; i < _where.size(); ++i)
+    for (MoneyStorage* card : oldCards)
     {
-        if (_where.at(i).at(0) == compare.at(0)) return i;
+        this->cards.push_back(card);
     }
-    return -1;
-}
-
-std::string Controller::getCategory(int category)
-{
-    switch (category)
-    {
-    case CASH: return "Cash";
-    case UTILITYBILLS: return "Utility bills";
-    case CREDITS: return "Credits";
-    case FOOD: return "Food";
-    case AUTOMOBILE: return "Automobile";
-    case ENTERTEIMENTS: return "Enterteiments";
-    case EDUCATION: return "Education";
-    case CLOTHES: return "Clothes";
-    case RESTAURANTS: return "Restaurants";
-    case PRESENTS: return "Presents";
-    case HOBBY: return "Hobby";
-    case APPLIANCES: return "Appliances";
-    case OTHER: return "Other";       
-    }
-}
-
-std::vector<std::vector<int>> Controller::dayReport(int day)
-{
-    std::vector<std::vector <int>> report;
-    for (std::vector<int> expence : expences)
-    {
-        if (day == expence.at(2))
-        {
-            int category = expence.at(0);
-            int index = searchExpence(expence, report);
-            if (index != -1) report.at(index).at(0) += expence.at(0);
-            else (report.push_back(expence));
-        }   
-    }
-    return report;
-}
-
-std::vector<std::vector<int>> Controller::weekReport(int day)
-{
-    Date dateControler;
-    std::vector<std::vector <int>> report;
-    std::vector<int> dates;
-
-    dates.push_back(day);
-
-    for (int i{0}; i < 6; ++i)
-    {
-        std::string dateStr = dateTransformer(day);
-        std::string newDay = dateControler.getDateThroughXDays(1, dateStr);
-        day = dateTransformer(newDay);
-        dates.push_back(day);
-    }
-
-    for (std::vector<int> expence : expences)
-    {
-        int date = expence.at(2);
-        for (int i = 0; i < dates.size(); ++i)
-        {
-            if (date == dates.at(i)) report.push_back(expence);
-        }
-    }
-
-    return report;
-}
-
-std::string Controller::dateTransformer(int date)
-{
-    std::string dateStr = std::to_string(date);
-    if (dateStr.size() == 7) dateStr.insert(0, "0");
-    dateStr.insert(2, ".");
-    dateStr.insert(5, ".");
-    return dateStr;
-}
-
-int Controller::dateTransformer(std::string date)
-{
-    date.erase(date.begin() + 2);
-    date.erase(date.begin() + 4);
-    return std::stoi(date);
 }
 
 Controller& Controller::getInstance()
@@ -122,6 +44,7 @@ void Controller::addMoney(int index, int sum)
 
 bool Controller::cash(int sum, int index, int date)
 {
+    Categories categories;
     MoneyStorage* card = cards.at(index);
     int type = card->getType();
     if (type == 3) return false;
@@ -129,38 +52,50 @@ bool Controller::cash(int sum, int index, int date)
     {
         if (!card->cash(sum)) return false;
         int comission = card->calcComission(sum);
-        int category = CREDITS;
+        int category = categories.CREDITS;
         std::vector<int> fee = { category, comission, date };
-        expences.push_back(fee);
+        reportMaker->addExpence(fee);
     }
     else if (!card->cash(sum)) return false;
 
-    std::vector<int> cashWithdrawal = { CASH, sum, date };
-    expences.push_back(cashWithdrawal);
+    std::vector<int> cashWithdrawal = { categories.CASH, sum, date };
+    reportMaker->addExpence(cashWithdrawal);
     return true;
 }
 
-void Controller::categoriesList()
+bool Controller::spend(int sum, int index, int date, int category)
 {
-    for (std::vector<int> expence : expences)
-    {
-        std::string date = std::to_string(expence.at(2));
-        if (date.size() == 7) date.insert(0, "0");
-        date.insert(2, ".");
-        date.insert(5, ".");
-        std::string category = getCategory(expence.at(0));
-        int spend = expence.at(1);
-        std::cout <<"Date: " << date <<'\n' << category << ": " << spend << "\n\n";
-    }
+    MoneyStorage* card = cards.at(index);  
+    if (!card->spend(sum)) return false;
+    std::vector<int> spend = { category, sum, date };
+    reportMaker->addExpence(spend);
+    return true;
 }
 
 void Controller::report(int date, int duration)
 {
-    std::vector<std::vector<int>> report;
-    if (duration == 1) report = dayReport(date);
-    if (duration == 2) report = weekReport(date);
-    for (std::vector<int> category : report)
-    {
-        std::cout <<"Date: " << dateTransformer(category.at(2))<< '\n' << "Category: " << getCategory(category.at(0)) << '\n' << "Expenses: " << category.at(1) << "\n\n";
-    }
+    std::vector<std::vector<int>> report = reportMaker->report(date, duration);
+    interFace->displayReport(duration, date, report);
+}
+
+void Controller::spendsRaiting(int date, int duration)
+{
+    std::vector<std::vector<int>> spendsRaiting = reportMaker->spendsRaiting(date, duration);
+    if (duration == 1) interFace->displayTop3WeekSpends(date, spendsRaiting);
+}
+
+void Controller::categoriesList()
+{
+    
+    interFace->displayCategories(reportMaker->getExpences());
+}
+
+void Controller::saveExpences()
+{
+    saveManager->saveExpences(reportMaker->getExpences());
+}
+
+void Controller::saveCards()
+{
+    saveManager->saveCards(cards);
 }

@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -127,18 +127,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Categories.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Date.cpp" />
+    <ClCompile Include="interface.cpp" />
     <ClCompile Include="MoneyStorage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MoneyStorageFabric.cpp" />
+    <ClCompile Include="Reports.cpp" />
+    <ClCompile Include="SaveManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="categories.h" />
+    <ClInclude Include="Categories.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Date.h" />
+    <ClInclude Include="interface.h" />
     <ClInclude Include="MoneyStorage.h" />
     <ClInclude Include="MoneyStorageFabric.h" />
+    <ClInclude Include="Reports.h" />
+    <ClInclude Include="SaveManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

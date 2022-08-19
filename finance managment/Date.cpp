@@ -62,3 +62,19 @@ std::string Date::getDateThroughXDays(int days, std::string date)
 
 	return newDay + "." + newMonth + "." + std::to_string(year);
 }
+
+std::string Date::dateTransformer(int date)
+{
+	std::string dateStr = std::to_string(date);
+	if (dateStr.size() == 7) dateStr.insert(0, "0");
+	dateStr.insert(2, ".");
+	dateStr.insert(5, ".");
+	return dateStr;
+}
+
+int Date::dateTransformer(std::string date)
+{
+	date.erase(date.begin() + 2);
+	date.erase(date.begin() + 4);
+	return std::stoi(date);
+}

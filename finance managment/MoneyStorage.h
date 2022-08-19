@@ -1,6 +1,7 @@
-#pragma once
 #include <iostream>
 #include <string>
+#pragma once
+
 class MoneyStorage
 {
 protected:
@@ -9,6 +10,11 @@ protected:
 	int type = 0;
 public:
 	int getType();
+	int getBallance();
+	std::string getNumber();
+	void setNumber(std::string number);
+	void setBallance(int ballance);
+	void setType(int type);
 	void addMoney(int sum);
 	virtual bool cash(int sum);
 	virtual bool spend(int sum) = 0;
@@ -19,7 +25,7 @@ public:
 class DebetCard : public MoneyStorage
 {
 public:
-	DebetCard(std::string number);
+	DebetCard(std::string number, int ballance);
 	bool cash(int sum) override;
 	bool spend(int sum) override;
 };
@@ -27,7 +33,7 @@ public:
 class Wallet : public MoneyStorage
 {
 public:
-	Wallet(std::string number);
+	Wallet(std::string number, int ballance);
 	bool spend(int sum) override;
 };
 
@@ -37,7 +43,7 @@ private:
 	int comission;
 
 public:
-	CreditCard(std::string number);
+	CreditCard(std::string number, int ballance);
 	bool cash(int sum) override;
 	bool spend(int sum) override;
 	int calcComission(int sum) override;

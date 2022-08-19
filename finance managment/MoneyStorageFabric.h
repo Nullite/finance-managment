@@ -1,6 +1,7 @@
-#pragma once
 #include "MoneyStorage.h"
 #include <ctime>
+#pragma once
+
 class MoneyStorageFabric
 {
 	std::string numberGenerator(int type);
